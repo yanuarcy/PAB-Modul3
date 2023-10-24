@@ -1,27 +1,20 @@
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import React from "react";
+import { Button, NativeBaseProvider, Text } from "native-base";
 
-// Functional Component with props
-const Button = (props) => {
+const MyButton = (props) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={props.onPress}>
-      <Text style={styles.text}>{props.text}</Text>
-    </TouchableOpacity>
+      <Button
+        backgroundColor="#dddddd"
+        padding={15}
+        alignItems="center"
+        borderRadius={30}
+        onPress={props.onPress}
+      >
+        <Text fontSize={16} textTransform="uppercase" fontWeight="bold">
+          {props.text}
+        </Text>
+      </Button>
   );
 };
 
-// Styles
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#dddddd",
-    padding: 15,
-    alignItems: "center",
-    borderRadius: 30,
-  },
-  text: {
-    fontSize: 16,
-    textTransform: "uppercase",
-    fontWeight: "bold",
-  },
-});
-
-export default Button;
+export default MyButton;

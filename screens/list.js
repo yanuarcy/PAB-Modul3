@@ -1,17 +1,21 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   FlatList,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
   Modal,
   Pressable,
   Alert,
 } from "react-native";
+import {
+  Image,
+  View,
+  Text,
+  Box,
+  Button,
+  Center,
+  Modal as ModalNB,
+} from "native-base";
 
-// Dummmy Data (Array of Object)
+// Dummy Data (Array of Object)
 const datas = [
   {
     id: 1,
@@ -85,20 +89,21 @@ const datas = [
 const List = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
-  // Arrow Function with destructured argument
   const renderItem = ({ item }) => {
     return (
-      <TouchableOpacity style={styles.view} onPress={() => setModalVisible(true)}>
-        <View>
-          <Pressable
-            style={[styles.buttonOpen]}
-            onPress={() => setModalVisible(true)}
-          >
-            <Image source={{ uri: item.image }} style={styles.image} />
-            <Text style={styles.text}>{item.title}</Text>
-          </Pressable>
-        </View>
-      </TouchableOpacity>
+      <Pressable
+        style={{
+          padding: 15,
+          borderBottomColor: "#dddddd",
+          borderBottomWidth: 1,
+        }}
+        onPress={() => setModalVisible(true)}
+      >
+        <Box>
+          <Image source={{ uri: item.image }} alt="Item Image" style={{ height: 200, width: "100%" }} />
+          <Text style={{ fontSize: 18, paddingTop: 10 }}>{item.title}</Text>
+        </Box>
+      </Pressable>
     );
   };
 
@@ -107,93 +112,30 @@ const List = () => {
       <FlatList
         data={datas}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
       />
-      <View>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Hey, It's Work. Yanuar open the Modal !</Text>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Hide Modal</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-      </View>
+      <ModalNB isOpen={modalVisible}>
+        <Center flex={1}>
+          <Box
+            style={{
+              backgroundColor: "white",
+              borderRadius: 20,
+              padding: 30,
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ marginBottom: 15, textAlign: "center" }}>Hey, It's Work. Yanuar open the Modal!</Text>
+            <Button
+              onPress={() => setModalVisible(!modalVisible)}
+              style={{ backgroundColor: "#2196F3" }}
+            >
+              <Text style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>Hide Modal</Text>
+            </Button>
+          </Box>
+        </Center>
+      </ModalNB>
     </>
   );
 };
-
-// Styles
-const styles = StyleSheet.create({
-  view: {
-    padding: 15,
-    borderBottomColor: "#dddddd",
-    borderBottomWidth: 1,
-  },
-  image: {
-    height: 200,
-    width: null,
-  },
-  text: {
-    fontSize: 18,
-    paddingTop: 10,
-  },
-
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    // height: 250,
-    margin: 40,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 60,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    // backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-});
 
 export default List;
